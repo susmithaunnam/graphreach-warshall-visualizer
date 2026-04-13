@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GraphReach – Warshall Visualizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ── HEADER ─────────────────────────────────────── -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">⬡</span>
+        <div>
+          <h1>GraphReach</h1>
+          <p class="tagline">Warshall's Algorithm · Transitive Closure Visualizer</p>
+        </div>
+      </div>
+      <div class="header-badges">
+        <span class="hbadge">Interactive</span>
+        <span class="hbadge accent">Step-by-Step</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── MAIN LAYOUT ────────────────────────────────── -->
+  <main class="main">
+
+    <!-- ── LEFT PANEL ─────────────────────────────── -->
+    <section class="panel left-panel">
+
+      <!-- SETUP -->
+      <div class="card" id="setup-card">
+        <div class="card-header">
+          <span class="card-icon">01</span>
+          <h2>Setup Graph</h2>
+        </div>
+        <div class="setup-row">
+          <label for="nodeCount">Nodes</label>
+          <div class="stepper">
+            <button class="step-btn" onclick="changeNodes(-1)">−</button>
+            <input type="number" id="nodeCount" min="1" max="10" value="4">
+            <button class="step-btn" onclick="changeNodes(1)">+</button>
+          </div>
+          <button class="btn-primary" onclick="createMatrix()">Build Graph</button>
+        </div>
+        <p class="hint">Enter 0 or 1 in each cell. Diagonal = self-loop.</p>
+      </div>
+
+      <!-- ADJACENCY MATRIX -->
+      <div class="card" id="matrix-card">
+        <div class="card-header">
+          <span class="card-icon">02</span>
+          <h2>Adjacency Matrix</h2>
+          <button class="btn-ghost small" onclick="loadExample()">Load Example</button>
+        </div>
+        <div class="matrix-scroll" id="matrixWrap">
+          <p class="empty-msg">Build the graph first.</p>
+        </div>
+      </div>
+
+      <!-- REACHABILITY MATRIX -->
+      <div class="card" id="result-card">
+        <div class="card-header">
+          <span class="card-icon">03</span>
+          <h2>Reachability Matrix</h2>
+          <div id="reachBadge"></div>
+        </div>
+        <div class="matrix-scroll" id="resultWrap">
+          <p class="empty-msg">Run the algorithm to see results.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── RIGHT PANEL ─────────────────────────────── -->
+    <section class="panel right-panel">
+
+      <!-- GRAPH CANVAS -->
+      <div class="card canvas-card" id="graph-card">
+        <div class="card-header">
+          <span class="card-icon">↗</span>
+          <h2>Graph Visualization</h2>
+          <div class="legend">
+            <span class="leg-item"><span class="leg-dot original"></span>Original</span>
+            <span class="leg-item"><span class="leg-dot discovered"></span>Discovered</span>
+            <span class="leg-item"><span class="leg-dot active"></span>Active path</span>
+          </div>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="graphCanvas"></canvas>
+          <div id="tooltip" class="tooltip"></div>
+        </div>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="card controls-card">
+        <div class="card-header">
+          <span class="card-icon">▶</span>
+          <h2>Algorithm Controls</h2>
+        </div>
+
+        <div class="controls-row">
+          <button class="btn-primary" id="runBtn" onclick="startWarshall()">
+            <span>▶</span> Run Full
+          </button>
+          <button class="btn-secondary" id="stepBtn" onclick="stepWarshall()">
+            <span>⏭</span> Step
+          </button>
+          <button class="btn-ghost" onclick="replayAnimation()">
+            <span>↺</span> Replay
+          </button>
+          <button class="btn-danger" onclick="resetAll()">
+            <span>✕</span> Reset
+          </button>
+        </div>
+
+        <!-- Step indicator -->
+        <div class="step-indicator" id="stepIndicator">
+          <div class="step-info" id="stepInfo">
+            <span class="step-label">Ready</span>
+            <span class="step-detail">Build a graph and run the algorithm</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+
+        <!-- Step log -->
+        <div class="log-toggle">
+          <label class="toggle-label">
+            <input type="checkbox" id="showLog" onchange="toggleLog()">
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            Show step log
+          </label>
+        </div>
+        <div class="step-log" id="stepLog"></div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- TOOLTIP (global) -->
+  <div id="globalTooltip" class="global-tooltip"></div>
+
+  <script src="warshall.js"></script>
+  <script src="graph.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
