@@ -16,7 +16,7 @@ An interactive web-based tool to visualize **Warshall’s Algorithm** for comput
 
 ## 🖼️ Preview
 
-(Add screenshot below after uploading)
+![App Screenshot](assets/screenshot1.png)
 
 ---
 
